@@ -18,6 +18,18 @@
     {
       "id": "com.megster.cordova.ble",
       "locator": "/Users/don/ble/cordova-ble"
+    },
+    "com.megster.cordova.ble",
+    {
+      "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
+      "id": "cordova-plugin-whitelist"
     }
+  ],
+  "cordovaPlatforms": [
+    {
+      "platform": "android",
+      "locator": "browser"
+    },
+    "ios"
   ]
 }
