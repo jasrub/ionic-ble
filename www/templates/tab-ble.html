@@ -1,9 +1,12 @@
-<ion-view view-title="BLE">
+f<ion-view view-title="BLE">
   <ion-content>
     <ion-refresher
        pulling-text="Pull to refresh..."
        on-refresh="onRefresh()">
     </ion-refresher>
+    <div>
+      Look for HMSoft, if not shown, refresh this page
+    </div>
     <ion-list>
       <ion-item class="item-icon-right" ng-repeat="device in devices" type="item-text-wrap" href="#/tab/ble/{{device.id}}">
         <h2>{{device.name}}</h2>

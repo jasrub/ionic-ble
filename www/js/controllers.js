@@ -2,18 +2,13 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
+.controller('HomeCtrl', function($scope) {})
 
 .controller('BLECtrl', function($scope, BLE) {
-  var deviceID = '20:C3:8F:F6:88:11';
 
   // keep a reference since devices will be added
   $scope.devices = BLE.devices;
+
 
   var success = function () {
       if ($scope.devices.length < 1) {
@@ -40,13 +35,13 @@ angular.module('starter.controllers', [])
   // initial scan
   BLE.scan().then(success, failure);
 
-
-
 })
 
-.controller('BLEDetailCtrl', function($scope, $stateParams, BLE) {
-  var deviceId  = $stateParams.deviceId
-  console.log(deviceId);
+.controller('BLEDetailCtrl', function($scope, $stateParams, BLE, $interval) {
+  $scope.deviceId  = $stateParams.deviceId
+  $scope.myColor = 'white';
+
+  console.log($scope.deviceId);
 
   var success = function () {
     console.log("sent!");
@@ -56,10 +51,11 @@ angular.module('starter.controllers', [])
       alert(error);
   };
 
-  BLE.connect(deviceId).then(
+  BLE.connect($scope.deviceId).then(
       function(peripheral) {
           $scope.device = peripheral;
           console.log("connected");
+          ble.startNotification($scope.deviceId, "FFE0", "FFE1", onData, failure);
       }
   );
 
@@ -77,7 +73,7 @@ angular.module('starter.controllers', [])
       var data = new ArrayBuffer(1);
       data[0] = 0x31;
 
-      ble.writeWithoutResponse(deviceId, "FFE0", "FFE1", stringToBytes("1"), success, failure);
+      ble.writeWithoutResponse($scope.deviceId, "FFE0", "FFE1", stringToBytes("1"), success, failure);
       console.log("pressed");
   };
 
@@ -86,7 +82,7 @@ angular.module('starter.controllers', [])
       var data = new ArrayBuffer(1);
       data[0] = 0x31;
 
-      ble.writeWithoutResponse(deviceId, "FFE0", "FFE1", stringToBytes("0"), success, failure);
+      ble.writeWithoutResponse($scope.deviceId, "FFE0", "FFE1", stringToBytes("0"), success, failure);
       console.log("pressed");
   };
 
@@ -95,7 +91,27 @@ angular.module('starter.controllers', [])
       var data = new ArrayBuffer(1);
       data[0] = 0x31;
 
-      ble.writeWithoutResponse(deviceId, "FFE0", "FFE1", stringToBytes("2"), success, failure);
+      ble.writeWithoutResponse($scope.deviceId, "FFE0", "FFE1", stringToBytes("2"), success, failure);
       console.log("pressed");
   };
+
+  var done  = false;
+
+ var successRead = function () {
+    done  = true;
+  };
+
+  var onData = function(buffer) {
+    // Decode the ArrayBuffer into a typed Array based on the data you expect
+    var readData = new Uint8Array(buffer);
+    $scope.isPressed = readData[0];
+    if ($scope.isPressed=='0') {
+      $scope.myColor = 'white';
+    }
+    else {
+      $scope.myColor = 'red';
+    }
+    $scope.$digest();
+}
+
 });
