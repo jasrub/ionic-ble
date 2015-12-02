@@ -13,7 +13,9 @@ For Making this:
 Install Ionic and Andriod SDK, then:  
 `
     ionic platform add android  
+    
     ionic plugin add com.megster.cordova.ble  
-    ionic run
+
+    ionic run android --device
  `
 - The App should now launch on your phone. make sure Bluetooth on youe phone is enabled and then look for HMSoft
