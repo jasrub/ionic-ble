@@ -5,6 +5,8 @@ This is an Ionic app that communicates with an ATTiny Microcontroller trough Blu
 The board Eagle schematics, traces and outlines are in the "Board" folder.
 The Arduino sketch programmed to the board is in the "Arduino" folder
 
+More about this project [on this page](http://fab.cba.mit.edu/classes/863.15/section.CBA/people/Rubinovitz/week11-interface-programming/)
+
 For Making this:
 - Make the board  
 - Program the board and make sure it works usign a serial FTDI Cable (Sending '1' turns on the LED, sending '0' turns it off, '2' makes it blink. The board is constantly sending '0' when button is not pressed and '1' when it is.)  
